@@ -10,7 +10,7 @@ int main(int ac, char** av) {
 
 	for (int i = 1; i < ac; ++i) {
 		for (int j = 0; av[i][j]; ++j) {
-			av[i][j] = std::toupper(static_cast<unsigned char>(av[i][j]));
+			av[i][j] = std::toupper(av[i][j]);
 		}
 		std::cout << av[i];
 	}
