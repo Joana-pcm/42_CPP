@@ -15,6 +15,9 @@ PhoneBook::~PhoneBook(){
 void    addContact(int index){
     if (index < 0 || index > 8)
         std::cout << "Invalid index: " << index << std::endl;
-    getFirstName();
     setFirstName();
+    setLastName();
+    setNickName();
+    setPhoneNum();
+    setDarkSecret();
 }
