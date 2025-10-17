@@ -1,24 +1,19 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include "contacts.hpp"
 
 class PhoneBook {
-public:
+private:
 	Contact contacts[8];
 	int contactCount;
 
-	void addContact();
+	public:
+	PhoneBook();
+	~PhoneBook();
+
+	void addContact(int index);
 	void searchContacts() const;
 	void displayContact(int index) const;
 	std::string formatField(const std::string& field) const;
-};
-
-class Contact
-{
-public:
-		std::string firstName;
-		std::string lastName;
-		std::string nickname;
-		std::string phoneNumber;
-		std::string darkestSecret;
 };

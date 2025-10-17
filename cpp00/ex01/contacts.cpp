@@ -1,0 +1,8 @@
+
+Contact::Contact()
+{
+}
+
+Contact::~Contact()
+{
+}

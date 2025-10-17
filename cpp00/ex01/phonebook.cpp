@@ -2,15 +2,19 @@
 #include <string>
 #include <iomanip>
 #include "phonebook.hpp"
+#include "contacts.hpp"
 
-void init_pb(PhoneBook phone)
-{
-    phone.
+PhoneBook::PhoneBook(){
+    contactCount = 0;
 }
 
-int main(int ac, char **av)
-{
-    PhoneBook phonebook;
-    
-    init_pb(phonebook);
+PhoneBook::~PhoneBook(){
+
+}
+
+void    addContact(int index){
+    if (index < 0 || index > 8)
+        std::cout << "Invalid index: " << index << std::endl;
+    getFirstName();
+    setFirstName();
 }
