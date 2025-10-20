@@ -6,7 +6,7 @@ SRCS = phonebook.cpp main.cpp contacts.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-TARGET = megaphone
+TARGET = phonebook
 
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)

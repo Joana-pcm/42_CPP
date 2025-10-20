@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cstdlib>
 #include "phonebook.hpp"
 
 int main() {
@@ -12,17 +13,19 @@ int main() {
 		std::getline(std::cin, command);
 
 		if (command == "ADD") {
-			int index = phoneBook.con % 8; // Overwrite oldest contact if more than 8
+			int index = phoneBook.getContactCount() % 8; // Overwrite oldest contact if more than 8
 			phoneBook.addContact(index);
-		} else if (command == "SEARCH") {
+		}
+		else if (command == "SEARCH") {
 			phoneBook.displayPhoneBook();
 			std::cout << "Enter index to view details: ";
 			std::string indexStr;
 			std::getline(std::cin, indexStr);
-			int index = std::stoi(indexStr);
+			int index = std::atoi(indexStr.c_str());
 			if (index >= 0 && index < phoneBook.getContactCount()) {
-				phoneBook.displayContactDetails(index);
-			} else {
+				phoneBook.displayContact(index);
+			}
+			else {
 				std::cout << "Invalid index." << std::endl;
 			}
 		} else if (command == "EXIT") {

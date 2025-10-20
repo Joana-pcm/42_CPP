@@ -21,7 +21,8 @@ private:
 
 	void addContact(int index);
 	void searchContacts() const;
-	void displayContact(int index) const;
+	void displayContact(int index);
 	void displayPhoneBook() const;
+	int	getContactCount();
 	std::string formatField(const std::string& field) const;
 };
