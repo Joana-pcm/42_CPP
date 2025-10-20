@@ -34,6 +34,5 @@ int main() {
 			std::cout << "Unknown command." << std::endl;
 		}
 	}
-
-	return 0;
+	return (0);
 }
