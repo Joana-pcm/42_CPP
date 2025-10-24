@@ -7,7 +7,7 @@ int main()
 	delete zombie1;
 
 	Zombie zombie2;
-	zombie2.randomChump("Zombie2");
+	randomChump("Zombie2");
 
 	return 0;
 }

@@ -1,7 +1,6 @@
+#pragma once
 #include <iostream>
 #include <string>
-#include "HumanA.hpp"
-#include "HumanB.hpp"
 
 class Weapon {
 	private:
