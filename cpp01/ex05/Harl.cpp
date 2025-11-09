@@ -30,21 +30,19 @@ void Harl::error()
 
 void Harl::complain(std::string level)
 {
-	void (Harl::*func_ptr())
-/* 	std::cout << level[0] << std::endl; */
-	switch (level[0])
+	std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
+	void (Harl::*functions[])() = {
+		&Harl::debug,
+		&Harl::info,
+		&Harl::warning,
+		&Harl::error
+	};
+	for (size_t i = 0; i < 4; i++) 
 	{
-		case 'D':
-		debug();
-		break ;
-		case 'I':
-		info();
-		break ;
-		case 'W':
-		warning();
-		break ;
-		case 'E':
-		error();
-		break ;
+		if (level == levels[i]) 
+		{
+			(this->*functions[i])();
+			return ;
+		}
 	}
 }
