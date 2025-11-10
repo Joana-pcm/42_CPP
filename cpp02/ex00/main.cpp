@@ -3,17 +3,14 @@
 int main( void ) 
 {
 	Fixed a;
-	Fixed b;
+	Fixed b( a );
+	Fixed c;
 
-	std::cout << "a.getRawBits(): " << a.getRawBits() << std::endl;
-	std::cout << "b.getRawBits(): " << b.getRawBits() << std::endl;
+	c = b;
 
-	a.setRawBits(42);
-	b.setRawBits(84);
-
-	std::cout << "After setting raw bits:" << std::endl;
-	std::cout << "a.getRawBits(): " << a.getRawBits() << std::endl;
-	std::cout << "b.getRawBits(): " << b.getRawBits() << std::endl;
+	std::cout << a.getRawBits() << std::endl;
+	std::cout << b.getRawBits() << std::endl;
+	std::cout << c.getRawBits() << std::endl;
 
 	return 0;
 }
