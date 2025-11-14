@@ -39,10 +39,11 @@ void    PhoneBook::displayPhoneBook() const {
 void    PhoneBook::displayContact(int index) {
     if (index < 0 || index > 8)
         std::cout << "Invalid index: " << index << std::endl;
-    std::cout << std::setw(10) << index << "|"
-          << std::setw(10) << formatField(contacts[index].getFirstName()) << "|"
-          << std::setw(10) << formatField(contacts[index].getLastName()) << "|"
-          << std::setw(10) << formatField(contacts[index].getNickname()) << "|" << std::endl;
+    std::cout << contacts[index].getFirstName() << std::endl
+          << contacts[index].getLastName() <<  std::endl
+          << contacts[index].getNickname() << std::endl
+          << contacts[index].getPhoneNumber() << std::endl
+          << contacts[index].getDarkestSecret() << std::endl;
 }
 
 void    PhoneBook::addContact(int index){
