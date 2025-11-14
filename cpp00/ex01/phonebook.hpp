@@ -5,13 +5,6 @@
 
 class PhoneBook {
 private:
-	/* struct Contact {
-		std::string firstName;
-		std::string lastName;
-		std::string nickname;
-		std::string phoneNumber;
-		std::string darkestSecret;
-	}; */
 	Contact contacts[8];
 	int contactCount;
 
