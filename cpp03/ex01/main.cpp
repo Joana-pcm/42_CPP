@@ -1,22 +1,22 @@
 #include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 
 int main()
 {
 	ClapTrap clap1("ClapOne");
-	ClapTrap clap2("ClapTwo");
-
+	ScavTrap scav1("ScavOne");
 
 	for (int i = 0; i < 6; i++)
-	{	
+	{
 		std::cout << "\n----------STATS----------" << std::endl;
 		std::cout << clap1 << std::endl;
-		std::cout << clap2 << std::endl;
+		std::cout << scav1 << std::endl;
 		std::cout << "\n--------ROUND " << i + 1 << "--------" << std::endl;
-		clap1.attack("ClapTwo");
-		clap2.takeDamage(0);
-		clap2.beRepaired(5);
-		clap2.attack("ClapOne");
-		clap1.takeDamage(0);
+		clap1.attack("ScavOne");
+		scav1.takeDamage(clap1.getAttackDamage());
+		scav1.beRepaired(5);
+		scav1.attack("ClapOne");
+		clap1.takeDamage(scav1.getAttackDamage());
 		clap1.beRepaired(5);
 		std::cout << std::endl;
 	}

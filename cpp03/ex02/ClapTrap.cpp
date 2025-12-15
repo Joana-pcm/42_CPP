@@ -64,7 +64,7 @@ void ClapTrap::beRepaired(unsigned int amount)
 
 std::ostream &operator<<(std::ostream &out, ClapTrap &src)
 {
-	out << "ClapTrap " << src.getName() 
+	out << "ClapTrap " << src.getName()
 	<< " [HP: " << src.getHitPoints()
 	<< ", EP: " << src.getEnergyPoints()
 	<< ", AD: " << src.getAttackDamage() << "]";
