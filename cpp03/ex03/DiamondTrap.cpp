@@ -28,7 +28,7 @@ void DiamondTrap::attack(const std::string& target)
 void DiamondTrap::whoAmI()
 {
     std::cout << "DiamondTrap name: " << this->name 
-    << ", ClapTrap name: " << ClapTrap::name << std::endl;
+    << ", ClapTrap name: " << ClapTrap::name << " o_O"<< std::endl;
 }
 
 std::ostream &operator<<(std::ostream &out, DiamondTrap &src)
