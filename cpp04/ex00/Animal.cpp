@@ -22,3 +22,13 @@ Animal &Animal::operator=(const Animal &src)
         this->type = src.type;
     return (*this);
 }
+
+void Animal::makeSound() const
+{
+    std::cout << "Animal makes a sound." << std::endl;
+}
+
+std::string Animal::getType() const
+{
+    return (this->type);
+}
