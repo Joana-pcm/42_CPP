@@ -11,6 +11,7 @@ WrongCat::WrongCat() : WrongAnimal()
 
 WrongCat::~WrongCat()
 {
+    delete this->brain;
     std::cout << "WrongCat destructed." << std::endl;
 }
 

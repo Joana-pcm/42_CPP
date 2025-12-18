@@ -28,13 +28,29 @@ int main()
         std::cout << shelter[i]->getType() << " ideas: " << (shelter[i]->getBrain())->getIdea(0) << std::endl;
     }
     std::cout << std::endl
-            << "----- Cleaning Up Shelter -----" << std::endl;
+    << "----- Cleaning Up Shelter -----" << std::endl;
     for (int i = 0; i < 4; i++)
     {
         std::cout << std::endl;
         std::cout << "Deleting Animal of type: " << shelter[i]->getType() << std::endl;
         delete shelter[i];
     }
+    std::cout << std::endl
+
+    << "----- Deep Copy Test -----" << std::endl;
+    Dog *dog1 = new Dog();
+    dog1->getBrain()->setIdea(0, "I want to play fetch!");
+    Dog *dog2 = new Dog(*dog1);
+    std::cout << std::endl
+    << "Dog1 ideas before modification: " << dog1->getBrain()->getIdea(0) << std::endl
+    << "Dog2 ideas before modification: " << dog2->getBrain()->getIdea(0) << std::endl
+    << std::endl;
+    dog2->getBrain()->setIdea(0, "I want to chase cats!");
+    std::cout << "Dog1 ideas after Dog2 modification: " << dog1->getBrain()->getIdea(0) << std::endl
+    << "Dog2 ideas after modification: " << dog2->getBrain()->getIdea(0) << std::endl;
+    delete dog1;
+    delete dog2;
+
     std::cout << std::endl << "----- Wrong Shelter -----" << std::endl;
     const WrongAnimal *wrongShelter[2] = {new WrongCat(), new WrongCat()};
     std::cout << std::endl;

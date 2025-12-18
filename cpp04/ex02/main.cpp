@@ -22,10 +22,14 @@ int main()
     std::cout << "Cat type: " << cat->getType() << std::endl;
     cat->makeSound();
     delete cat;
+    std::cout << std::endl;
 
-
-
-    std::cout << std::endl; // comment out to test abstract class
+    return 0;
+}
+/* 
+int main()
+{
+// comment out to test abstract class
     std::cout << "----- Abstract Animal Test -----" << std::endl;
     std::cout << std::endl;
     AAnimal *meta = new AAnimal();
@@ -34,7 +38,7 @@ int main()
     meta->makeSound();
     delete meta;
     std::cout << std::endl;
-/*     std::cout << std::endl
+    std::cout << std::endl
     << "----- Wrong Cat Test -----" << std::endl;
     WrongAnimal *wrongCat = new WrongCat();
     std::cout << "WrongCat type: " << wrongCat->getType() << std::endl;
@@ -48,6 +52,6 @@ int main()
     wrongAnimal->makeSound();
     delete wrongAnimal;
     std::cout << std::endl;
- */
+
     return 0;
-}
+} */

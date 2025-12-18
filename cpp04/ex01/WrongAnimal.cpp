@@ -7,19 +7,23 @@ WrongAnimal::WrongAnimal() : type("WrongAnimal")
 
 WrongAnimal::~WrongAnimal()
 {
+    delete this->brain;
     std::cout << "WrongAnimal destructed." << std::endl;
 }
 
 WrongAnimal::WrongAnimal(const WrongAnimal &src)
 {
     this->type = src.type;
+    this->brain = new Brain(*(src.brain));
     std::cout << "WrongAnimal copy constructor called." << std::endl;
 }
 
 WrongAnimal &WrongAnimal::operator=(const WrongAnimal &src)
 {
-    if (this != &src)
+    if (this != &src) {
         this->type = src.type;
+        this->brain = new Brain(*(src.brain));
+    }
     return (*this);
 }
 
