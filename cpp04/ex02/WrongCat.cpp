@@ -1,11 +1,9 @@
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
-#include "Brain.hpp"
 
 WrongCat::WrongCat() : WrongAnimal()
 {
     this->type = "WrongCat";
-    this->brain = new Brain();
     std::cout << "WrongCat constructed." << std::endl;
 }
 

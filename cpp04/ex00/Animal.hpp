@@ -8,7 +8,7 @@ class Animal
     protected:
         std::string type;
     public:
-        explicit Animal();
+        Animal();
         virtual ~Animal();
         Animal(const Animal &src);
         Animal &operator=(const Animal &src);

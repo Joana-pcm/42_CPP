@@ -32,8 +32,3 @@ std::string WrongAnimal::getType() const
 {
     return (this->type);
 }
-
-Brain *WrongAnimal::getBrain() const
-{
-    return (this->brain);
-}

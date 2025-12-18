@@ -1,39 +1,39 @@
-#include "Animal.hpp"
+#include "AAnimal.hpp"
 
-Animal::Animal() : type("Animal")
+AAnimal::AAnimal() : type("Animal")
 {
     std::cout << "Animal constructed." << std::endl;
 }
 
-Animal::~Animal()
+AAnimal::~AAnimal()
 {
     std::cout << "Animal destructed." << std::endl;
 }
 
-Animal::Animal(const Animal &src)
+AAnimal::AAnimal(const AAnimal &src)
 {
     this->type = src.type;
     std::cout << "Animal copy constructor called." << std::endl;
 }
 
-Animal &Animal::operator=(const Animal &src)
+AAnimal &AAnimal::operator=(const AAnimal &src)
 {
     if (this != &src)
         this->type = src.type;
     return (*this);
 }
 
-void Animal::makeSound() const
+void AAnimal::makeSound() const
 {
     std::cout << "Animal makes a sound." << std::endl;
 }
 
-std::string Animal::getType() const
+std::string AAnimal::getType() const
 {
     return (this->type);
 }
 
-Brain *Animal::getBrain() const
+Brain *AAnimal::getBrain() const
 {
     return (this->brain);
 }
