@@ -4,6 +4,8 @@
 
 class Dog : public AAnimal
 {
+    private:
+        Brain* brain;
     public:
         Dog();
         ~Dog();
@@ -11,4 +13,5 @@ class Dog : public AAnimal
         Dog &operator=(const Dog &src);
         void makeSound() const;
         std::string getType() const;
+        Brain *getBrain();
 };

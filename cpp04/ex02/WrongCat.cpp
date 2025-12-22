@@ -1,5 +1,6 @@
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
+#include "Brain.hpp"
 
 WrongCat::WrongCat() : WrongAnimal()
 {
@@ -32,4 +33,9 @@ void WrongCat::makeSound() const
 std::string WrongCat::getType() const
 {
     return (this->type);
+}
+
+Brain *WrongCat::getBrain()
+{
+    return (this->brain);
 }
