@@ -8,7 +8,6 @@ class Animal
 {
     protected:
         std::string type;
-        Brain *brain;
     public:
         Animal();
         virtual ~Animal();
@@ -16,5 +15,5 @@ class Animal
         Animal &operator=(const Animal &src);
         virtual void makeSound() const;
         virtual std::string getType() const;
-        virtual Brain *getBrain() const;
+        virtual Brain *getBrain();
 };

@@ -13,17 +13,13 @@ Animal::~Animal()
 Animal::Animal(const Animal &src)
 {
     this->type = src.type;
-    this->brain = new Brain(*(src.brain));
     std::cout << "Animal copy constructor called." << std::endl;
 }
 
 Animal &Animal::operator=(const Animal &src)
 {
     if (this != &src)
-    {
         this->type = src.type;
-        this->brain = new Brain(*(src.brain));
-    }
     return (*this);
 }
 
@@ -37,7 +33,7 @@ std::string Animal::getType() const
     return (this->type);
 }
 
-Brain *Animal::getBrain() const
+Brain *Animal::getBrain()
 {
-    return (this->brain);
+    return (NULL);
 }

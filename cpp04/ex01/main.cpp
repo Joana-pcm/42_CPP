@@ -9,7 +9,7 @@ int main()
 {
     std::cout << std::endl << "----- Construct Shelter -----" 
     << std::endl << std::endl;
-    const Animal *shelter[4] = {new Dog(), new Cat(), new Dog(), new Cat()};
+    Animal *shelter[4] = {new Dog(), new Cat(), new Dog(), new Cat()};
     std::cout << std::endl;
     for (int i = 0; i < 4; i++)
     {
@@ -52,28 +52,23 @@ int main()
     delete dog2;
 
     std::cout << std::endl << "----- Wrong Shelter -----" << std::endl;
-    const WrongAnimal *wrongShelter[2] = {new WrongCat(), new WrongCat()};
+    WrongAnimal *wrongShelter[2] = {new WrongCat(), new WrongCat()};
     std::cout << std::endl;
     for (int i = 0; i < 2; i++)
     {
-        (wrongShelter[i]->getBrain())->setIdea(0, "I want to nap!");
-    }
-    std::cout << std::endl
-     << "----- Wrong Animal Info -----" << std::endl;
-    for (int i = 0; i < 2; i++)
-    {
-        std::cout << std::endl
-        << "Wrong Animal Type: " << wrongShelter[i]->getType() << std::endl;
-        wrongShelter[i]->makeSound();
-        std::cout << "Wrong Cat ideas: " << (wrongShelter[i]->getBrain())->getIdea(0) << std::endl;
-    }
-    std::cout << std::endl
-    << "----- Cleaning Up Wrong Shelter -----" << std::endl;
-    for (int i = 0; i < 2; i++)
-    {
-        std::cout << std::endl 
-        << "Deleting Wrong Animal of type: " << wrongShelter[i]->getType() << std::endl;
-        delete wrongShelter[i];
+        if (wrongShelter[i]->getBrain() == NULL)
+        {
+            std::cout << "Error: WrongAnimal of type " << wrongShelter[i]->getType() << " has no brain!" << std::endl;
+            delete wrongShelter[0];
+            delete wrongShelter[1];
+            return 1;
+        }
+        else
+        {
+            wrongShelter[i]->getBrain()->setIdea(0, "I want to nap!");
+            delete wrongShelter[0];
+            delete wrongShelter[1];
+        }
     }
     return 0;
 }

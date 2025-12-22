@@ -3,6 +3,7 @@
 WrongAnimal::WrongAnimal() : type("WrongAnimal")
 {
     std::cout << "WrongAnimal constructed." << std::endl;
+    this->brain = new Brain();
 }
 
 WrongAnimal::~WrongAnimal()
@@ -14,8 +15,8 @@ WrongAnimal::~WrongAnimal()
 WrongAnimal::WrongAnimal(const WrongAnimal &src)
 {
     this->type = src.type;
-    this->brain = new Brain(*(src.brain));
     std::cout << "WrongAnimal copy constructor called." << std::endl;
+    this->brain = new Brain(*(src.brain));
 }
 
 WrongAnimal &WrongAnimal::operator=(const WrongAnimal &src)
@@ -37,7 +38,7 @@ std::string WrongAnimal::getType() const
     return (this->type);
 }
 
-Brain *WrongAnimal::getBrain() const
+Brain *WrongAnimal::getBrain()
 {
-    return (this->brain);
+    return (NULL);
 }

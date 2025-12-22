@@ -5,6 +5,8 @@
 
 class WrongCat : public WrongAnimal
 {
+    private:
+        Brain* brain;
     public:
         WrongCat();
         ~WrongCat();
@@ -12,4 +14,5 @@ class WrongCat : public WrongAnimal
         WrongCat &operator=(const WrongCat &src);
         void makeSound() const;
         std::string getType() const;
+        Brain *getBrain();
 };

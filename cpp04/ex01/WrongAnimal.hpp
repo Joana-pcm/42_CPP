@@ -16,5 +16,5 @@ class WrongAnimal
         WrongAnimal &operator=(const WrongAnimal &src);
         void makeSound() const;
         std::string getType() const;
-        Brain *getBrain() const;
+        Brain *getBrain();
 };

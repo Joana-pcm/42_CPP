@@ -5,13 +5,11 @@
 WrongCat::WrongCat() : WrongAnimal()
 {
     this->type = "WrongCat";
-    this->brain = new Brain();
     std::cout << "WrongCat constructed." << std::endl;
 }
 
 WrongCat::~WrongCat()
 {
-    delete this->brain;
     std::cout << "WrongCat destructed." << std::endl;
 }
 
@@ -35,4 +33,9 @@ void WrongCat::makeSound() const
 std::string WrongCat::getType() const
 {
     return (this->type);
+}
+
+Brain *WrongCat::getBrain()
+{
+    return (this->brain);
 }
