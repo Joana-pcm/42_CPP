@@ -6,7 +6,7 @@ SRCS = main.cpp Bureaucrat.cpp Form.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-TARGET = Bureaucrat
+TARGET = Form
 
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
