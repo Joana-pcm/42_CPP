@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include "Form.hpp"
 
 class Bureaucrat
 {
@@ -28,6 +29,7 @@ class Bureaucrat
             public:
                 const char *what() const throw();
         };
+        void signForm(const Form &form);
 };
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &b);
