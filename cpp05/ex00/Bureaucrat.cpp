@@ -63,8 +63,12 @@ void Bureaucrat::incrementGrade()
     {
         std::cout << "Error incrementing " << this->name << "'s grade: ";
         throw Bureaucrat::GradeTooHighException();
-    }    
-    this->grade--;
+    }
+    else 
+    {
+        std::cout << "Bureaucrat leveled up! Grade incremented!" << std::endl;
+        this->grade--;
+    }
 }
 
 void Bureaucrat::decrementGrade()
@@ -74,7 +78,11 @@ void Bureaucrat::decrementGrade()
         std::cout << "Error decrementing " << this->name << "'s grade: ";
         throw Bureaucrat::GradeTooLowException();
     }
-    this->grade++;
+    else 
+    {
+        std::cout << "Bureaucrat failed! Grade decremented!" << std::endl;
+        this->grade++;
+    }
 }
 
 std::ostream &operator<<(std::ostream &out, const Bureaucrat &b)
