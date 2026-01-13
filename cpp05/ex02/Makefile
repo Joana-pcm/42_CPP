@@ -15,10 +15,10 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(TARGET)
+	rm -f $(TARGET) *_shrubbery
 
 re: fclean $(TARGET)
 
