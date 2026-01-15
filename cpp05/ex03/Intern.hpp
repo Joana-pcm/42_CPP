@@ -14,6 +14,11 @@ public:
 	Intern(const Intern &other);
 	Intern &operator=(const Intern &other);
 	AForm *makeForm(const std::string formName, const std::string target);
+	class FormException : public std::exception
+	{
+		public:
+            const char *what() const throw();
+	};
 };
 
 std::ostream &operator<<(std::ostream &out, const Intern &i);

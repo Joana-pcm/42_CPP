@@ -10,7 +10,7 @@ Intern::Intern()
 
 Intern::~Intern()
 {
-	std::cout << "Intern Destructor called" << std::endl;
+	std::cout << "Intern destructed." << std::endl;
 }
 
 Intern::Intern(const Intern &other)
@@ -27,39 +27,36 @@ Intern &Intern::operator=(const Intern &other)
 
 AForm *Intern::makeForm(const std::string formName, const std::string target)
 {
+	int	i = -1;
+	AForm *form;
+
 	std::string formNames[3] = {
 		"shrubbery creation",
 		"robotomy request",
 		"presidential pardon"
 	};
-	std::cout << "\n------ Forms' Constructors ------ " << std::endl;
-	AForm *forms[3] = {
-		new ShrubberyCreationForm(target),
-		new RobotomyRequestForm(target),
-		new PresidentialPardonForm(target)
-	};
-	std::cout << "---------------------------------\n" << std::endl;
+	while (++i < 3)
+	{
+		if (formNames[i] == formName)
+			break;
+	}
+	switch (i) {
+		case 0:
+		form = new ShrubberyCreationForm(target);
+		break;
+		case 1:
+		form = new RobotomyRequestForm(target);
+		break;
+		case 2:
+		form = new PresidentialPardonForm(target);
+		break;
+		default:
+		throw FormException();
+	}
+	return (form);
+}
 
-	for (int i = 0; i < 3; i++)
-	{
-		if (formName == formNames[i])
-		{
-			std::cout << "Intern creates " << formName << " form." << std::endl;
-			std::cout << "\n------ Destructors ------ " << std::endl;
-			for (int j = 0; j < 3; j++)
-			{
-				if (j != i)
-					delete forms[j];
-			}
-			std::cout << "-------------------------\n" << std::endl;
-			return (forms[i]);
-		}
-	}
-	std::cout << "Intern could not find the form: " << formName << std::endl;
-	std::cout << "------ Destructors ------ " << std::endl;
-	for (int j = 0; j < 3; j++)
-	{
-		delete forms[j];
-	}
-	return (NULL);
+const char *Intern::FormException::what() const throw()
+{
+	return ("Form name doesn't exist.");
 }

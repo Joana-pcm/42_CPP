@@ -33,7 +33,7 @@ void RobotomyRequestForm::execute(const Bureaucrat &executor) const
 	}
 	else if (executor.getGrade() > this->getGradeExecute())
 	{
-		std::cout << executor.getName() << " couldn't execute " << this->getName() << std::endl;
+		std::cout << executor.getName() << " can't execute " << this->getName() << std::endl;
 		throw AForm::GradeTooLowException();
 	}
 	else
