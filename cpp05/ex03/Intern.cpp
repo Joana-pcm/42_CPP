@@ -27,19 +27,20 @@ Intern &Intern::operator=(const Intern &other)
 
 AForm *Intern::makeForm(const std::string formName, const std::string target)
 {
-	void (Intern::*functions[3])() = {
-		&Intern::createShrubbery(target),
-		&Intern::createRobotomy(target),
-		&Intern::createPresidential(target)
+	std::string names[3] = {
+		"shrubbery creation",
+		"robotomy request",
+		"presidential pardon"
+	};
+	AForm* (Intern::*functions[3])(const std::string) = {
+		&Intern::createShrubbery,
+		&Intern::createRobotomy,
+		&Intern::createPresidential
 	};
 	for (int i = 0; i < 3; i++)
 	{
-		if (formName == "shrubbery creation")
-			return (this->*functions[i])();
-		else if (formName == "robotomy request")
-			return (this->*functions[i])();
-		else if (formName == "presidential pardon")
-			return (this->*functions[i])();
+		if (formName == names[i])
+			return (this->*functions[i])(target);
 	}
 	throw FormException();
 }
