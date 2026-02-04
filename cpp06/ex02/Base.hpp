@@ -7,7 +7,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-#include <typeinfo>
 
 class Base
 {
