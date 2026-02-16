@@ -33,14 +33,14 @@ public:
 };
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
+std::ostream &operator<<(std::ostream& out,	 const Array<T>& arr)
 {
-	os << "Array of size " << arr.size() << ":\n";
+	out << "Array of size " << arr.size() << ":\n";
 	for (size_t i = 0; i < arr.size(); ++i)
 	{
-		os << "[" << i << "]: " << arr[i] << "\n";
+		out << "[" << i << "]: " << arr[i] << "\n";
 	}
-	return os;
+	return out;
 }
 
 template <typename T>

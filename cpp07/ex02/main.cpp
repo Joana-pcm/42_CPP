@@ -1,101 +1,123 @@
 #include "Array.hpp"
-template <typename T>
+#include <iostream>
+#include <string>
 
-#define RESET   "\033[0m"
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
+#define RED "\033[31m"
+#define BROWN "\033[33m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
 
-void manip_array(Array<T>& ar, T& val, size_t pos)
+int main(void)
 {
-	try
-	{
-		ar[pos] = val;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << RED << e.what() << RESET << '\n';
-	}
-}
+    srand(0);
 
-template<typename T>
-void test_array(T a, T b, T c, T d)
-{
-	std::cout << YELLOW "\nINIT TEST\n" RESET;
-	Array<T> arr1;
-	Array<T> arr2(4);
-	Array<T> arr3(arr2);
-	std::cout << "let's check inside : arr1 (empty array)\n";
-	std::cout << arr1;
-	std::cout << "let's check inside : arr2 (size 4)\n";
-	std::cout << arr2;
-	std::cout << "let's check inside : arr3 (copy of arr2)\n";
-	std::cout << arr3;
+    std::cout << BROWN << "------ Testing Array of ints ------\n\n" << RESET;
 
-	std::cout << "let's modify the last 2\n";
-	manip_array(arr2, a, 0);
-    manip_array(arr3, a, 3);
-    manip_array(arr3, b, 1);
-    manip_array(arr3, c, 2);
+    Array<int> numbers(10);
+    for (unsigned int i = 0; i < numbers.size(); i++)
+        numbers[i] = rand();
 
-	std::cout << "\nAfter manipulations:\n";
-    std::cout << "arr2:\n"; std::cout << arr2;
-    std::cout << "arr3:\n"; std::cout << arr3;
+    std::cout << GREEN << "Array of ints created and filled with random values.\n" << RESET;
+    std::cout << numbers << std::endl;
 
-	std::cout << "\nlet's create an array 4 by copy assign of arr3\n";
-	Array<T> arr4 = arr3;
-	std::cout << "arr4:\n"; std::cout << arr4;
-	
-	std::cout << YELLOW "\nDEEP COPY TEST\n" RESET;
-	std::cout << "\nlet's replace all value of arr4 and compare with arr3\n";
-	for (size_t i = 0; i < arr4.size(); ++i)
-		manip_array(arr4, d , i); 
-	std::cout << "arr4:\n"; std::cout << arr4;
-	std::cout << "arr3:\n"; std::cout << arr3;
+    std::cout << GREEN << "Testing *mirror (subject test)\n" << RESET;
+    int* mirror = new int[numbers.size()];
+    for (unsigned int i = 0; i < numbers.size(); i++)
+        mirror[i] = numbers[i];
 
-	std::cout << YELLOW "\nOVER-SIZE TEST\n" RESET;
-	std::cout << "\n\n let's create an array of size2 and fill it a bit to much\n";
-	Array<T> ar(2);
-	for (size_t i = 0; i < 4; ++i)
-		manip_array(ar, a, i);
-	std::cout << ar;
-	std::cout << "\n\n now let's try to copy arr4 to our new array of size 2 (shoudl be dyanmic)\n";
-	ar = arr4;
-	std::cout << ar;
+    std::cout << "*mirror : " << *mirror << std::endl;
 
-	std::cout << YELLOW "\nGO CRAZY TEST\n" RESET;
-	std::cout << "let's try a ton of wrong index \n";
-	manip_array(arr3, a, 42);
-	manip_array(arr3, d, -121);
-	manip_array(arr3, c, -10000000);
-	for (size_t i = 0; i < 8; ++i)
-	{
-		manip_array(arr1, a, i);
-		manip_array(arr2, b, i);
-		manip_array(arr3, c , i);
-		manip_array(arr4, d, i);
-		manip_array(ar, a, i);
-	}
-	std::cout << arr1;
-	std::cout << arr2;
-	std::cout << arr3;
-	std::cout << ar;
-}
+    std::cout << GREEN << "Testing copy constructor\n" << RESET;
+    Array<int> copy(numbers);
+    std::cout << "Copy:\n";
+    std::cout << copy << std::endl;
 
+    std::cout << GREEN << "Testing assignment operator\n" << RESET;
+    Array<int> assigned;
+    assigned = numbers;
+    std::cout << "Assigned:\n";
+    std::cout << assigned << std::endl;
 
-int main()
-{	
-	std::cout << std::endl;
-	std::cout << GREEN "/************** INT TEMPLATE TEST *********************/" RESET << std::endl;
-	std::cout << std::endl;
-	test_array(42, 50, -42, 100000000);
-	std::cout << std::endl;
-	std::cout << GREEN "/************** DOUBLE TEMPLATE TEST *********************/" RESET << std::endl;
-	std::cout << std::endl;
-	test_array(42424242.0, -50000.0, -42424242.0, 100000000000000000.0);
-	std::cout << std::endl;
-	std::cout << GREEN "/************** STRING TEMPLATE TEST *********************/" RESET << std::endl;
-	std::cout << std::endl;
-	test_array("never", "gonna", "give", "you up");
-	return (0);
+    std::cout << RED << "Testing out of bounds access\n" << RESET;
+    try
+    {
+        std::cout << "Index -2:\t";
+        std::cout << numbers[-2] << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
+    try
+    {
+        std::cout << "Index Max(" << numbers.size() << "):\t";
+        std::cout << numbers[numbers.size()] << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
+    delete[] mirror;
+
+    std::cout << BROWN << "\n------ Testing Array of strings ------\n\n" << RESET;
+
+    Array<std::string> words(5);
+    words[0] = "Never";
+    words[1] = "gonna";
+    words[2] = "give";
+    words[3] = "you";
+    words[4] = "up";
+
+    std::cout << GREEN << "Array of strings created.\n" << RESET;
+    std::cout << words << std::endl;
+
+    std::cout << GREEN << "Testing copy constructor\n" << RESET;
+    Array<std::string> copyStr(words);
+    std::cout << "Copy:\n";
+    std::cout << copyStr << std::endl;
+
+    std::cout << GREEN << "Testing assignment operator\n" << RESET;
+    Array<std::string> assignedStr;
+    assignedStr = words;
+    std::cout << "Assigned:\n";
+    std::cout << assignedStr << std::endl;
+
+    std::cout << RED << "Testing out of bounds access\n" << RESET;
+    try
+    {
+        std::cout << "Index -1:\t";
+        std::cout << words[-1] << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    try
+    {
+        std::cout << "Index Max(" << words.size() << "):\t";
+        std::cout << words[words.size()] << std::endl;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    std::cout << BROWN << "\n------ Testing empty Array ------\n\n" << RESET;
+    Array<int> empty;
+    std::cout << GREEN << "Empty Array created.\n" << RESET;
+    std::cout << empty << std::endl;
+    std::cout << RED << "Testing out of bounds access on empty Array\n" << RESET;
+    try
+    {
+        std::cout << "Force access to [0]:\t";
+        std::cout << empty[0] << std::endl;
+    }
+    catch (std::exception& e)    {
+        std::cout << e.what() << std::endl;
+    }
+    std::cout << std::endl;
+
+    return 0;
 }
