@@ -2,7 +2,7 @@
 
 int main()
 {
-	std::srand(static_cast<unsigned int>(std::time(NULL)));
+	std::srand(time(NULL));
 
 	Base* obj = generate();
 	std::cout << "Identifying by pointer: ";

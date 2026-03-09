@@ -1,10 +1,6 @@
 #pragma once
 
-#include <string>
 #include <iostream>
-#include <iomanip>
-#include <limits>
-#include <cmath>
 #include <cstdlib>
 #include <ctime>
 
@@ -14,11 +10,23 @@ public:
 	virtual ~Base() {};
 };
 
-class A : public Base {};
+class A : public Base {
+	public:
+	A():Base(){};
+	~A(){};
+};
 
-class B : public Base {};
+class B : public Base {
+	public:
+	B():Base(){};
+	~B(){};
+};
 
-class C : public Base {};
+class C : public Base {
+	public:
+	C():Base(){};
+	~C(){};
+};
 
 Base* generate();
 void identify(Base* p);

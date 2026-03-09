@@ -1,5 +1,22 @@
 #include "ScalarConverter.hpp"
 
+ScalarConverter::ScalarConverter() {};
+
+ScalarConverter::~ScalarConverter() {};
+
+ScalarConverter::ScalarConverter()
+
+ScalarConverter::ScalarConverter(const ScalarConverter &other) 
+{
+	void (other);
+}
+
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
+{
+	(void) other;
+	return (*this);
+}
+
 void ScalarConverter::convert(const std::string& literal)
 {
 	if (isChar(literal))
@@ -104,7 +121,7 @@ bool ScalarConverter::isFloat(const std::string& literal)
 		else if (!std::isdigit(literal[i]))
 			return false;
 	}
-	return literal[literal.length() - 1] == 'f';
+	return (literal[literal.length() - 1] == 'f');
 }
 
 bool ScalarConverter::isDouble(const std::string& literal)
@@ -118,11 +135,11 @@ bool ScalarConverter::isDouble(const std::string& literal)
 		if (literal[i] == '.')
 		{
 			if (hasDecimal)
-				return false;
+				return (false);
 			hasDecimal = true;
 		}
 		else if (!std::isdigit(literal[i]))
-			return false;
+			return (false);
 	}
-	return true;
+	return (true);
 }
