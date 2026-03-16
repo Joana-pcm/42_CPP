@@ -1,14 +1,12 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter() {};
+ScalarConverter::ScalarConverter() {}
 
-ScalarConverter::~ScalarConverter() {};
-
-ScalarConverter::ScalarConverter()
+ScalarConverter::~ScalarConverter() {}
 
 ScalarConverter::ScalarConverter(const ScalarConverter &other) 
 {
-	void (other);
+	(void) other;
 }
 
 ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
@@ -27,6 +25,8 @@ void ScalarConverter::convert(const std::string& literal)
 		convertFloat(literal);
 	else if (isDouble(literal))
 		convertDouble(literal);
+	else if (isPseudo(literal))
+		convertPseudo(literal);
 	else
 		std::cout << "Invalid literal: " << literal << std::endl;
 }
@@ -86,6 +86,18 @@ void ScalarConverter::convertDouble(const std::string& literal)
 	std::cout << "double: " << d << std::endl;
 }
 
+void ScalarConverter::convertPseudo(const std::string& literal)
+{
+	std::cout << "------ Converting Pseudo ------\n\n";
+	std::cout << "char: impossible\nint: impossible\n";
+	if (literal == "nan" || literal == "nanf")
+		std::cout << "float: nanf\ndouble: nan\n";
+	else if (literal == "inf" || literal == "+inf")
+		std::cout << "float: inff\ndouble: inf\n";
+	else
+		std::cout << "float: -inff\ndouble: -inf\n";
+}
+
 bool ScalarConverter::isChar(const std::string& literal)
 {
 	return literal.length() == 1 && !std::isdigit(literal[0]);
@@ -109,19 +121,14 @@ bool ScalarConverter::isFloat(const std::string& literal)
 	size_t i = 0;
 	if (literal[i] == '-' || literal[i] == '+')
 		i++;
-	bool hasDecimal = false;
-	for (; i < literal.length(); i++)
+	for (; i < literal.length() - 1; i++)
 	{
-		if (literal[i] == '.')
-		{
-			if (hasDecimal)
-				return false;
-			hasDecimal = true;
-		}
-		else if (!std::isdigit(literal[i]))
+		if (literal[i] == '.' && !std::isdigit(literal[i + 1]))
+			return false;
+		if (!std::isdigit(literal[i]) && literal[i] != '.')
 			return false;
 	}
-	return (literal[literal.length() - 1] == 'f');
+	return ((literal[literal.length() - 1] == 'f'));
 }
 
 bool ScalarConverter::isDouble(const std::string& literal)
@@ -129,17 +136,20 @@ bool ScalarConverter::isDouble(const std::string& literal)
 	size_t i = 0;
 	if (literal[i] == '-' || literal[i] == '+')
 		i++;
-	bool hasDecimal = false;
 	for (; i < literal.length(); i++)
 	{
-		if (literal[i] == '.')
-		{
-			if (hasDecimal)
-				return (false);
-			hasDecimal = true;
-		}
-		else if (!std::isdigit(literal[i]))
+		if (literal[i] == '.' && !std::isdigit(literal[i + 1]))
+			return false;
+		else if (!std::isdigit(literal[i]) && literal[i] != '.')
 			return (false);
 	}
 	return (true);
+}
+
+bool ScalarConverter::isPseudo(const std::string& literal)
+{
+	if (literal == "nan" || literal == "nanf"
+		|| literal == "inf" || literal == "-inf" || literal == "+inf")
+		return	(true);
+	return (false);
 }
