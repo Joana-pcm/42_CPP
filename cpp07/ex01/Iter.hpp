@@ -6,8 +6,8 @@
 #include <limits>
 #include <cmath>
 
-template <typename T>
-void iter(T* array, size_t length, void (*func)(T&))
+template <typename T, typename F>
+void iter(T* array, size_t length, void (*func)(F))
 {
 	if (!array || !func)
 		return ;
@@ -28,6 +28,7 @@ void incrementElement(T& element)
 {
 	++element;
 }
+
 template <typename T>
 void toUpperElement(T& element)
 {
