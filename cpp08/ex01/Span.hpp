@@ -26,6 +26,7 @@ class Span
 				++first;
 			}
 		}
+		void addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 		unsigned int size() const { return numbers.size(); }
 		unsigned int capacity() const { return maxSize; }
 		std::vector<int> getNumbers() const { return numbers; }

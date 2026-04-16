@@ -29,6 +29,13 @@ void Span::addNumber(int number)
 	numbers.push_back(number);
 }
 
+void Span::addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end)
+{
+	if (numbers.size() + std::distance(begin, end) > maxSize)
+		throw std::runtime_error("Span is full");
+	numbers.insert(numbers.end(), begin, end);
+}
+
 unsigned int Span::shortestSpan() const
 {
 	if (numbers.size() < 2)

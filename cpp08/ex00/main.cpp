@@ -1,24 +1,64 @@
 #include "easyfind.hpp"
 
 #define RED "\033[31m"
+#define RESET "\033[0m"
+#define BROWN "\033[33m"
 
 int main()
 {
-	std::vector<int> vec(5);
-	for (int i = 0; i < 5; ++i)
-		vec[i] = i;
+	std::cout << BROWN << "Test vector container\n"<< RESET;
+	std::vector<int> v;
+
+	for (int i = 0; i < 10; i++)
+	{
+		v.push_back(i);
+	}
+	try
+	{
+		std::cout << *easyfind(v, 5) << std::endl;
+		std::cout << *easyfind(v, 20) << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+
+
+	std::cout << BROWN << "Test list container\n"<< RESET;
+	std::list<int> l;
+
+	for (int i = 0; i < 20; i++)
+	{
+		l.push_back(i);
+	}
+	try
+	{
+		std::cout << *easyfind(l, 0) << std::endl;
+		std::cout << *easyfind(l, 1000) << std::endl;
+	}
+	catch (std::exception &e)
+	{
+		std::cout << RED << e.what() << RESET << std::endl;
+	}
+
+
+	std::cout << BROWN << "Test deque container\n"<< RESET;
+	std::deque<int> d;
+
+	for (int i = 0; i < 350; i++)
+	{
+		d.push_back(i);
+	}
 
 	try
 	{
-		std::cout << "Finding 3 in vector: " << *easyfind(vec, 3) << std::endl;
-		std::cout << "Finding 4 in vector: " << *easyfind(vec, 4) << std::endl;
-		std::cout << "Finding 0 in vector: " << *easyfind(vec, 0) << std::endl;
-		std::cout << "Finding 6 in vector: " << *easyfind(vec, 6) << std::endl;
+		std::cout << *easyfind(d, 349) << std::endl;
+		std::cout << *easyfind(d, 560) << std::endl;
 	}
-	catch (const std::exception& e)
+	catch (std::exception &e)
 	{
-		std::cerr << RED << e.what() << std::endl;
+		std::cout << RED << e.what() << RESET << std::endl;
 	}
-
-	return 0;
+	
+	return (0);
 }

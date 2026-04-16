@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <vector>
+#include <list>
+#include <deque>
 
 template <typename T>
 typename T::iterator easyfind(T& container, int value)
