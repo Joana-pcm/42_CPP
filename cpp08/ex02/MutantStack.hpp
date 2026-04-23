@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stack>
 #include <vector>
+#include <list>
 
 template <typename T>
 class MutantStack : public std::stack<T>
@@ -27,12 +28,25 @@ class MutantStack : public std::stack<T>
 		const_iterator end() const { return std::stack<T>::c.end(); }
 };
 
-std::ostream& operator<<(std::ostream& os, const MutantStack<int>& mstack)
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const MutantStack<T>& mstack)
 {
 	os << "MutantStack with " << mstack.size() << " element" << (mstack.size() == 1 ? "" : "s") << ":\t[";
-	for (MutantStack<int>::const_iterator it = mstack.begin(); it != mstack.end(); ++it)
+	for (typename MutantStack<T>::const_iterator it = mstack.begin(); it != mstack.end(); ++it)
 	{
 		os << *it << (it + 1 != mstack.end() ? ", " : "");
+	}
+	os << "]\n";
+	return os;
+}
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const std::list<T>& mstack)
+{
+	os << "List with " << mstack.size() << " element" << (mstack.size() == 1 ? "" : "s") << ":\t[";
+	for (typename std::list<T>::const_iterator it = mstack.begin(); it != mstack.end(); )
+	{
+		os << *it << (++it != mstack.end() ? ", " : "");
 	}
 	os << "]\n";
 	return os;
