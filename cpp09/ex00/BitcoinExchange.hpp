@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <boost/regex.hpp>
 
 class BitcoinExchange
 {
@@ -20,6 +19,7 @@ class BitcoinExchange
         void loadData();
         void processInput(const char* file);
         void validInput();
+        void exchange(std::map<std::string, float>::iterator input);
 };
 
 std::ostream& operator<<(std::ostream& os, const BitcoinExchange& exchange);
