@@ -1,12 +1,12 @@
 CXX = c++
 
-CXXFLAGS = -std=c++98 -Wall -Wextra -Werror 
+CXXFLAGS = -std=c++98 -Wall -Wextra -Werror
 
-SRCS = main.cpp RPN.cpp
+SRCS = main.cpp PmergeMe.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-TARGET = RPN
+TARGET = PmergeMe
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
