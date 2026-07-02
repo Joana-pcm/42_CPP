@@ -59,25 +59,32 @@ size_t PmergeMe::jacobsthal(size_t index)
 // use buildInsertionOrder to determine the order in which elements should be inserted
 std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
 {
-	std::vector<size_t> order;
+    std::vector<size_t> order;
+    if (count == 0)
+        return order;
 
-	if (count == 0)
-		return order;
-	order.push_back(0);
-	if (count == 1)
-		return order;
+    // b1 is always inserted first (it's bounded by its pair already in main chain)
+    order.push_back(0);
+    if (count == 1)
+        return order;
 
-	size_t previousBoundary = 1;
-	for (size_t level = 3; order.size() < count; ++level)
-	{
-		size_t currentBoundary = jacobsthal(level);
-		if (currentBoundary > count)
-			currentBoundary = count;
-		for (size_t index = currentBoundary; index > previousBoundary && order.size() < count; --index)
-			order.push_back(index - 1);
-		previousBoundary = currentBoundary;
-	}
-	return order;
+    size_t prevJacob = 1; // jacobsthal(2) = 1, already "processed" boundary
+    for (size_t k = 3; order.size() < count; ++k)
+    {
+        size_t currJacob = jacobsthal(k);
+        if (currJacob > count)
+            currJacob = count;
+
+        // Insert from currJacob-1 DOWN TO prevJacob (inclusive), in that order
+        // This ensures each element is inserted before the one it's bounded by
+        for (size_t idx = currJacob; idx > prevJacob && order.size() < count; --idx)
+            order.push_back(idx - 1);
+
+        prevJacob = jacobsthal(k); // use unclamped value to track real boundary
+        if (prevJacob > count)
+            prevJacob = count;
+    }
+    return order;
 }
 
 // Sort a container using the Ford-Johnson algorithm
@@ -111,23 +118,23 @@ void PmergeMe::fordJohnsonSort(Container &values)
 		mainChain.push_back(first);
 		pending.push_back(second);
 	}
-/* 	std::cout << "Main chain: ";
+	std::cout << "Main chain: ";
 	for (typename Container::iterator it = mainChain.begin(); it != mainChain.end(); ++it)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 	std::cout << "Pending: ";
 	for (typename std::vector<value_type>::iterator it = pending.begin(); it != pending.end(); ++it)
 		std::cout << *it << " ";
-	std::cout << std::endl; */
+	std::cout << std::endl;
 	// use recursion
 	// until it reaches the end if the mainChain
 	fordJohnsonSort(mainChain);
 
 	std::vector<size_t> order = buildInsertionOrder(pending.size());
-/* 
+
 	std::cout << "Insertion order: ";
 	for (size_t i = 0; i < order.size(); ++i)
-		std::cout << order[i] << " "; */
+		std::cout << order[i] << " ";
 	std::cout << std::endl;
 	for (size_t i = 0; i < order.size(); ++i)
 	{
