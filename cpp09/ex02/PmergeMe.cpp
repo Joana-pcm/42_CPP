@@ -1,18 +1,11 @@
 #include "PmergeMe.hpp"
 
 
-PmergeMe::PmergeMe()
-{
-}
+PmergeMe::PmergeMe() {}
 
-PmergeMe::~PmergeMe()
-{
-}
+PmergeMe::~PmergeMe() {}
 
-PmergeMe::PmergeMe(const PmergeMe &other) : _vector(other._vector)
-{
-	_list = other._list;
-}
+PmergeMe::PmergeMe(const PmergeMe &other) : _vector(other._vector), _list(other._list) {}
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 {
@@ -21,7 +14,7 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 		_vector = other._vector;
 		_list = other._list;
 	}
-	return *this;
+	return (*this);
 }
 
 void PmergeMe::sort(std::vector<int> &vec)
@@ -41,6 +34,10 @@ void PmergeMe::sort(std::list<int> &lst)
 	fordJohnsonSort(lst);
 	_list = lst;
 }
+
+// Calculate the Jacobsthal number for a given index
+// Jacobsthal is a sequence where each term is the 
+// sum of the previous term and twice the term before that
 size_t PmergeMe::jacobsthal(size_t index)
 {
 	if (index == 0)
@@ -59,6 +56,7 @@ size_t PmergeMe::jacobsthal(size_t index)
 	return current;
 }
 
+// use buildInsertionOrder to determine the order in which elements should be inserted
 std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
 {
 	std::vector<size_t> order;
@@ -82,11 +80,13 @@ std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
 	return order;
 }
 
+// Sort a container using the Ford-Johnson algorithm
 template <typename Container>
 void PmergeMe::fordJohnsonSort(Container &values)
 {
+	// will return and end the recursion sequence
 	if (values.size() < 2)
-		return;
+		return ;
 
 	typedef typename Container::value_type value_type;
 	Container mainChain;
@@ -94,6 +94,7 @@ void PmergeMe::fordJohnsonSort(Container &values)
 
 	for (typename Container::iterator it = values.begin(); it != values.end();)
 	{
+
 		value_type first = *it;
 		++it;
 		if (it == values.end())
@@ -110,10 +111,24 @@ void PmergeMe::fordJohnsonSort(Container &values)
 		mainChain.push_back(first);
 		pending.push_back(second);
 	}
-
+/* 	std::cout << "Main chain: ";
+	for (typename Container::iterator it = mainChain.begin(); it != mainChain.end(); ++it)
+		std::cout << *it << " ";
+	std::cout << std::endl;
+	std::cout << "Pending: ";
+	for (typename std::vector<value_type>::iterator it = pending.begin(); it != pending.end(); ++it)
+		std::cout << *it << " ";
+	std::cout << std::endl; */
+	// use recursion
+	// until it reaches the end if the mainChain
 	fordJohnsonSort(mainChain);
 
 	std::vector<size_t> order = buildInsertionOrder(pending.size());
+/* 
+	std::cout << "Insertion order: ";
+	for (size_t i = 0; i < order.size(); ++i)
+		std::cout << order[i] << " "; */
+	std::cout << std::endl;
 	for (size_t i = 0; i < order.size(); ++i)
 	{
 		typename Container::iterator position = std::lower_bound(mainChain.begin(), mainChain.end(), pending[order[i]]);
