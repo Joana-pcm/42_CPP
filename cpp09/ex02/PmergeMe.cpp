@@ -63,24 +63,21 @@ std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
     if (count == 0)
         return order;
 
-    // b1 is always inserted first (it's bounded by its pair already in main chain)
     order.push_back(0);
     if (count == 1)
         return order;
 
-    size_t prevJacob = 1; // jacobsthal(2) = 1, already "processed" boundary
+    size_t prevJacob = 1;
     for (size_t k = 3; order.size() < count; ++k)
     {
         size_t currJacob = jacobsthal(k);
         if (currJacob > count)
             currJacob = count;
 
-        // Insert from currJacob-1 DOWN TO prevJacob (inclusive), in that order
-        // This ensures each element is inserted before the one it's bounded by
         for (size_t idx = currJacob; idx > prevJacob && order.size() < count; --idx)
             order.push_back(idx - 1);
 
-        prevJacob = jacobsthal(k); // use unclamped value to track real boundary
+        prevJacob = jacobsthal(k);
         if (prevJacob > count)
             prevJacob = count;
     }
@@ -91,58 +88,75 @@ std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
 template <typename Container>
 void PmergeMe::fordJohnsonSort(Container &values)
 {
-	// will return and end the recursion sequence
-	if (values.size() < 2)
-		return ;
+    if (values.size() < 2)
+        return;
 
-	typedef typename Container::value_type value_type;
-	Container mainChain;
-	std::vector<value_type> pending;
+    typedef Element<typename Container::value_type> Elem;
+    std::vector<Elem> mainChain;
+    std::vector<Elem> pending;
+    bool hasStraggler = false;
+    Elem straggler;
 
-	for (typename Container::iterator it = values.begin(); it != values.end();)
-	{
+    size_t nextTag = 0;
+    size_t i = 0;
+    while (i < values.size())
+    {
+        if (i + 1 == values.size())
+        {
+            straggler = values[i];
+            hasStraggler = true;
+            ++i;
+            break;
+        }
+        Elem first = values[i];
+        Elem second = values[i + 1];
+        i += 2;
+        if (second.value > first.value)
+            std::swap(first, second);
+        size_t tag = nextTag++;
+        first.tag = tag;
+        second.tag = tag;
+        mainChain.push_back(first);
+        pending.push_back(second);
+    }
 
-		value_type first = *it;
-		++it;
-		if (it == values.end())
-		{
-			pending.push_back(first);
-			break;
-		}
+    // Recursively sort only the chain of winners
+    fordJohnsonSort(mainChain);
 
-		value_type second = *it;
-		++it;
+    // tagToPos[tag] == current index in mainChain of the element with that tag.
+    // Tags are 0..nextTag-1, so a vector works as a direct lookup table.
+    std::vector<size_t> tagToPos(nextTag);
+    for (size_t p = 0; p < mainChain.size(); ++p)
+        tagToPos[mainChain[p].tag] = p;
 
-		if (second > first)
-			std::swap(first, second);
-		mainChain.push_back(first);
-		pending.push_back(second);
-	}
-	std::cout << "Main chain: ";
-	for (typename Container::iterator it = mainChain.begin(); it != mainChain.end(); ++it)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-	std::cout << "Pending: ";
-	for (typename std::vector<value_type>::iterator it = pending.begin(); it != pending.end(); ++it)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-	// use recursion
-	// until it reaches the end if the mainChain
-	fordJohnsonSort(mainChain);
+    std::vector<size_t> order = buildInsertionOrder(pending.size());
 
-	std::vector<size_t> order = buildInsertionOrder(pending.size());
+    for (size_t k = 0; k < order.size(); ++k)
+    {
+        Elem elem = pending[order[k]];
+        size_t boundPos = tagToPos[elem.tag];
+        typename std::vector<Elem>::iterator boundIt = mainChain.begin() + boundPos;
 
-	std::cout << "Insertion order: ";
-	for (size_t i = 0; i < order.size(); ++i)
-		std::cout << order[i] << " ";
-	std::cout << std::endl;
-	for (size_t i = 0; i < order.size(); ++i)
-	{
-		typename Container::iterator position = std::lower_bound(mainChain.begin(), mainChain.end(), pending[order[i]]);
-		mainChain.insert(position, pending[order[i]]);
-	}
+        typename std::vector<Elem>::iterator insertPos =
+            std::lower_bound(mainChain.begin(), boundIt, elem);
+        size_t insertIndex = insertPos - mainChain.begin();
 
-	values.swap(mainChain);
+        mainChain.insert(insertPos, elem);
+
+        // Shift recorded positions for everything after the insertion point
+        for (size_t t = 0; t < tagToPos.size(); ++t)
+            if (tagToPos[t] >= insertIndex)
+                ++tagToPos[t];
+    }
+
+    if (hasStraggler)
+    {
+        typename std::vector<Elem>::iterator insertPos =
+            std::lower_bound(mainChain.begin(), mainChain.end(), straggler);
+        mainChain.insert(insertPos, straggler);
+    }
+
+    values.swap(mainChain);
 }
 
 void PmergeMe::printVector() const

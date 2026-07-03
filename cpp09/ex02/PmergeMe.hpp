@@ -25,6 +25,15 @@ public:
 	PmergeMe(const PmergeMe &other);
 	PmergeMe &operator=(const PmergeMe &other);
 
+	// template struct to hold a value and its associated tag
+	template <typename T>
+    struct Element
+    {
+        T value;
+        size_t tag; // identifies which mainChain element this one is bounded by
+        bool operator<(const Element &other) const { return value < other.value; }
+    };
+
 	// methods
 	void sort(std::vector<int> &vec);
 	void sort(std::list<int> &lst);
