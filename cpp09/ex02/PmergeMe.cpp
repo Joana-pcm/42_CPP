@@ -22,7 +22,20 @@ void PmergeMe::sort(std::vector<int> &vec)
 	if (vec.empty())
 		throw std::runtime_error("Error: empty vector");
 
-	fordJohnsonSort(vec);
+    std::vector<Element> elements;
+    for (size_t i = 0; i < vec.size(); ++i)
+    {
+        PmergeMe::Element elem;
+        elem.value = vec[i];
+        elem.tag = 0; // Initialize tag to 0; it will be set in fordJohnsonSort
+        elements.push_back(elem);
+    }
+	fordJohnsonSort(elements);
+    
+    for (size_t i = 0; i < elements.size(); ++i)
+    {
+        vec[i] = elements[i].value; // Update the original vector with sorted values
+    }
 	_vector = vec;
 }
 
@@ -31,7 +44,19 @@ void PmergeMe::sort(std::list<int> &lst)
 	if (lst.empty())
 		throw std::runtime_error("Error: empty list");
 
-	fordJohnsonSort(lst);
+    std::vector<Element> elements;
+    for (std::list<int>::iterator it = lst.begin(); it != lst.end(); ++it)
+    {
+        PmergeMe::Element elem;
+        elem.value = *it;
+        elem.tag = 0; // Initialize tag to 0; it will be set in fordJohnsonSort
+        elements.push_back(elem);
+    }
+    fordJohnsonSort(elements);
+	for (size_t i = 0; i < elements.size(); ++i)
+        {lst.remove(elements[i].value);} // Remove the old values
+    for (size_t i = 0; i < elements.size(); ++i)
+        {lst.push_back(elements[i].value);} // Add the sorted values
 	_list = lst;
 }
 
@@ -85,17 +110,16 @@ std::vector<size_t> PmergeMe::buildInsertionOrder(size_t count)
 }
 
 // Sort a container using the Ford-Johnson algorithm
-template <typename Container>
-void PmergeMe::fordJohnsonSort(Container &values)
+void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
 {
     if (values.size() < 2)
         return;
 
-    typedef Element<typename Container::value_type> Elem;
+    typedef Element Elem;
     std::vector<Elem> mainChain;
     std::vector<Elem> pending;
-    bool hasStraggler = false;
-    Elem straggler;
+    bool hasLeftover = false;
+    Elem leftover;
 
     size_t nextTag = 0;
     size_t i = 0;
@@ -103,8 +127,8 @@ void PmergeMe::fordJohnsonSort(Container &values)
     {
         if (i + 1 == values.size())
         {
-            straggler = values[i];
-            hasStraggler = true;
+            leftover = values[i];
+            hasLeftover = true;
             ++i;
             break;
         }
@@ -120,6 +144,16 @@ void PmergeMe::fordJohnsonSort(Container &values)
         pending.push_back(second);
     }
 
+    std::cout << "Main chain: ";
+    for (size_t j = 0; j < mainChain.size(); ++j)
+        std::cout << mainChain[j].value << " ";
+    std::cout << std::endl;
+
+    std::cout << "Pending: ";
+    for (size_t j = 0; j < pending.size(); ++j)
+        std::cout << pending[j].value << " ";
+    std::cout << std::endl;
+    std::cout << "Leftover: " << (hasLeftover ? leftover.value : -1) << std::endl;
     // Recursively sort only the chain of winners
     fordJohnsonSort(mainChain);
 
@@ -135,9 +169,9 @@ void PmergeMe::fordJohnsonSort(Container &values)
     {
         Elem elem = pending[order[k]];
         size_t boundPos = tagToPos[elem.tag];
-        typename std::vector<Elem>::iterator boundIt = mainChain.begin() + boundPos;
+        std::vector<Elem>::iterator boundIt = mainChain.begin() + boundPos;
 
-        typename std::vector<Elem>::iterator insertPos =
+        std::vector<Elem>::iterator insertPos =
             std::lower_bound(mainChain.begin(), boundIt, elem);
         size_t insertIndex = insertPos - mainChain.begin();
 
@@ -149,11 +183,11 @@ void PmergeMe::fordJohnsonSort(Container &values)
                 ++tagToPos[t];
     }
 
-    if (hasStraggler)
+    if (hasLeftover)
     {
-        typename std::vector<Elem>::iterator insertPos =
-            std::lower_bound(mainChain.begin(), mainChain.end(), straggler);
-        mainChain.insert(insertPos, straggler);
+        std::vector<Elem>::iterator insertPos =
+            std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
+        mainChain.insert(insertPos, leftover);
     }
 
     values.swap(mainChain);
