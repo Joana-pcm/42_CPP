@@ -29,7 +29,7 @@ public:
     struct Element
     {
         int value;
-        size_t tag; // identifies which mainChain element this one is bounded by
+        size_t id;
         bool operator<(const Element &other) const { return value < other.value; }
     };
 

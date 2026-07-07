@@ -27,7 +27,7 @@ void PmergeMe::sort(std::vector<int> &vec)
     {
         PmergeMe::Element elem;
         elem.value = vec[i];
-        elem.tag = 0; // Initialize tag to 0; it will be set in fordJohnsonSort
+        elem.id = i; // Initialize id to i; it will be set in fordJohnsonSort
         elements.push_back(elem);
     }
 	fordJohnsonSort(elements);
@@ -41,6 +41,7 @@ void PmergeMe::sort(std::vector<int> &vec)
 
 void PmergeMe::sort(std::list<int> &lst)
 {
+	size_t i = 0;
 	if (lst.empty())
 		throw std::runtime_error("Error: empty list");
 
@@ -49,8 +50,9 @@ void PmergeMe::sort(std::list<int> &lst)
     {
         PmergeMe::Element elem;
         elem.value = *it;
-        elem.tag = 0; // Initialize tag to 0; it will be set in fordJohnsonSort
+        elem.id = i; // Initialize id to i; it will be set in fordJohnsonSort
         elements.push_back(elem);
+        i++;
     }
     fordJohnsonSort(elements);
 	for (size_t i = 0; i < elements.size(); ++i)
@@ -116,12 +118,12 @@ void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
         return;
 
     typedef Element Elem;
-    std::vector<Elem> mainChain;
-    std::vector<Elem> pending;
+    std::vector<Elem> bigPair;
+    std::vector<Elem> smallPair;
+    std::vector<size_t> pairId;
     bool hasLeftover = false;
     Elem leftover;
 
-    size_t nextTag = 0;
     size_t i = 0;
     while (i < values.size())
     {
@@ -137,60 +139,56 @@ void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
         i += 2;
         if (second.value > first.value)
             std::swap(first, second);
-        size_t tag = nextTag++;
-        first.tag = tag;
-        second.tag = tag;
-        mainChain.push_back(first);
-        pending.push_back(second);
+        bigPair.push_back(first);
+        smallPair.push_back(second);
+        pairId.push_back(first.id);
     }
 
-    std::cout << "Main chain: ";
-    for (size_t j = 0; j < mainChain.size(); ++j)
-        std::cout << mainChain[j].value << " ";
+    std::cout << "\nBig pair: ";
+    for (size_t j = 0; j < bigPair.size(); ++j)
+        std::cout << bigPair[j].value << " ";
     std::cout << std::endl;
 
-    std::cout << "Pending: ";
-    for (size_t j = 0; j < pending.size(); ++j)
-        std::cout << pending[j].value << " ";
+    std::cout << "Small pair: ";
+    for (size_t j = 0; j < smallPair.size(); ++j)
+        std::cout << smallPair[j].value << " ";
     std::cout << std::endl;
     std::cout << "Leftover: " << (hasLeftover ? leftover.value : -1) << std::endl;
-    // Recursively sort only the chain of winners
-    fordJohnsonSort(mainChain);
 
-    // tagToPos[tag] == current index in mainChain of the element with that tag.
-    // Tags are 0..nextTag-1, so a vector works as a direct lookup table.
-    std::vector<size_t> tagToPos(nextTag);
-    for (size_t p = 0; p < mainChain.size(); ++p)
-        tagToPos[mainChain[p].tag] = p;
+    // Recursively sort only the big pairs
+    fordJohnsonSort(bigPair);
 
-    std::vector<size_t> order = buildInsertionOrder(pending.size());
+    std::vector<size_t> idToPos;
+    for (size_t p = 0; p < bigPair.size(); ++p)
+        idToPos[bigPair[p].id] = p;
+
+    std::vector<size_t> order = buildInsertionOrder(smallPair.size());
 
     for (size_t k = 0; k < order.size(); ++k)
     {
-        Elem elem = pending[order[k]];
-        size_t boundPos = tagToPos[elem.tag];
-        std::vector<Elem>::iterator boundIt = mainChain.begin() + boundPos;
+        Elem elem = smallPair[order[k]];
+        size_t boundPos = idToPos[pairId[order[k]]];
+        std::vector<Elem>::iterator boundIt = bigPair.begin() + boundPos;
 
         std::vector<Elem>::iterator insertPos =
-            std::lower_bound(mainChain.begin(), boundIt, elem);
-        size_t insertIndex = insertPos - mainChain.begin();
-
-        mainChain.insert(insertPos, elem);
+            std::lower_bound(bigPair.begin(), boundIt, elem);
+        size_t insertIndex = insertPos - bigPair.begin();
+        bigPair.insert(insertPos, elem);
 
         // Shift recorded positions for everything after the insertion point
-        for (size_t t = 0; t < tagToPos.size(); ++t)
-            if (tagToPos[t] >= insertIndex)
-                ++tagToPos[t];
+        for (size_t t = 0; t < idToPos.size(); ++t)
+            if (idToPos[t] >= insertIndex)
+                ++idToPos[t];
     }
 
     if (hasLeftover)
     {
         std::vector<Elem>::iterator insertPos =
-            std::lower_bound(mainChain.begin(), mainChain.end(), leftover);
-        mainChain.insert(insertPos, leftover);
+            std::lower_bound(bigPair.begin(), bigPair.end(), leftover);
+        bigPair.insert(insertPos, leftover);
     }
 
-    values.swap(mainChain);
+    values.swap(bigPair);
 }
 
 void PmergeMe::printVector() const
