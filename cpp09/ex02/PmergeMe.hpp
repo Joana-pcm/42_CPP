@@ -14,8 +14,9 @@
 class PmergeMe
 {
 private:
-	std::vector<int> _vector;
-	std::list<int> _list;
+	std::vector<int>	_vector;
+	std::list<int>		_list;
+	size_t				_idCount; // total number of elements in the original input
 public:
 	// constructors
 	PmergeMe();

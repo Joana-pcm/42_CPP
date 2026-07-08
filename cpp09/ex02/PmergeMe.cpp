@@ -30,6 +30,7 @@ void PmergeMe::sort(std::vector<int> &vec)
         elem.id = i; // Initialize id to i; it will be set in fordJohnsonSort
         elements.push_back(elem);
     }
+    _idCount = elements.size(); // Store the total number of elements 
 	fordJohnsonSort(elements);
     
     for (size_t i = 0; i < elements.size(); ++i)
@@ -54,6 +55,7 @@ void PmergeMe::sort(std::list<int> &lst)
         elements.push_back(elem);
         i++;
     }
+    _idCount = elements.size(); // Store the total number of elements
     fordJohnsonSort(elements);
 	for (size_t i = 0; i < elements.size(); ++i)
         {lst.remove(elements[i].value);} // Remove the old values
@@ -158,7 +160,7 @@ void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
     // Recursively sort only the big pairs
     fordJohnsonSort(bigPair);
 
-    std::vector<size_t> idToPos;
+    std::vector<size_t> idToPos(_idCount);
     for (size_t p = 0; p < bigPair.size(); ++p)
         idToPos[bigPair[p].id] = p;
 
