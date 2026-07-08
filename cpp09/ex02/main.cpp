@@ -50,9 +50,9 @@ int main(int ac, char **av)
         std::cout << std::endl;
 
         std::cout << "Time to process a range of " << input.size() << " elements with std::vector : "
-            << static_cast<double>(vectorEnd - vectorStart) * 1000000.0 / CLOCKS_PER_SEC << " us" << std::endl;
+            << static_cast<double>(vectorEnd - vectorStart)  / CLOCKS_PER_SEC << " us" << std::endl;
         std::cout << "Time to process a range of " << input.size() << " elements with std::list   : "
-            << static_cast<double>(listEnd - listStart) * 1000000.0 / CLOCKS_PER_SEC << " us" << std::endl;
+            << static_cast<double>(listEnd - listStart)  / CLOCKS_PER_SEC << " us" << std::endl;
     }
     catch (const std::exception &e)
     {

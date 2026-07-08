@@ -145,7 +145,7 @@ void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
         smallPair.push_back(second);
         pairId.push_back(first.id);
     }
-
+/* 
     std::cout << "\nBig pair: ";
     for (size_t j = 0; j < bigPair.size(); ++j)
         std::cout << bigPair[j].value << " ";
@@ -156,7 +156,7 @@ void PmergeMe::fordJohnsonSort(std::vector<Element> &values)
         std::cout << smallPair[j].value << " ";
     std::cout << std::endl;
     std::cout << "Leftover: " << (hasLeftover ? leftover.value : -1) << std::endl;
-
+ */
     // Recursively sort only the big pairs
     fordJohnsonSort(bigPair);
 
