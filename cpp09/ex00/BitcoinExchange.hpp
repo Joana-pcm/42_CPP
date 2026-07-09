@@ -10,7 +10,6 @@ class BitcoinExchange
 {
     private:
         std::map<std::string, float> _data;
-        std::map<std::string, float> _input;
     public:
         BitcoinExchange();
         ~BitcoinExchange();
@@ -18,8 +17,8 @@ class BitcoinExchange
         BitcoinExchange& operator=(const BitcoinExchange& other);
         void loadData();
         void processInput(const char* file);
-        void validInput();
-        void exchange(std::map<std::string, float>::iterator input);
+        void validInput(std::string date, float value);
+        void exchange(std::string date, float value);
 };
 
 std::ostream& operator<<(std::ostream& os, const BitcoinExchange& exchange);
